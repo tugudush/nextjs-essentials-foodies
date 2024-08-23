@@ -1,6 +1,8 @@
 import Image from "next/image";
+
 import classes from "./page.module.css";
 import { getMeal } from "@/lib/meals";
+import { notFound } from "next/navigation";
 
 interface PageProps {
   params: {
@@ -23,6 +25,10 @@ export default function MealDetailsPage({ params }: PageProps) {
   console.log("slug: ", params.mealSlug);
   const meal = getMeal(params.mealSlug) as MealSlugProps;
   console.log("meal title: ", meal.title);
+
+  if (!meal) {    
+    notFound();
+  }
 
   meal.instructions = meal.instructions.replace(/\n/g, "<br />");
 
